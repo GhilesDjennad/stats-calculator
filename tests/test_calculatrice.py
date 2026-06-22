@@ -1,4 +1,4 @@
-from stats.calculatrice import moyenne
+from stats.calculatrice import moyenne, filtrer_positifs, maximum
 import pytest
 
 @pytest.fixture
@@ -24,6 +24,25 @@ def test_moyenne_nombres_mixtes(nombres_mixtes):
 def test_moyenne(nombres, attendu):
     assert moyenne(nombres) == attendu
 
+
 def test_moyenne_liste_vide():
     with pytest.raises(ValueError):
-        moyenne([])
+        moyenne([])    
+    
+@pytest.mark.parametrize("nombres, attendu", [
+    ([1, 5, 8], 8),
+    ([-5, -1, -3], -1),
+])
+def test_maximum_base(nombres, attendu):
+    assert maximum(nombres) == attendu
+    
+def test_maximum_liste_vide():
+    with pytest.raises(ValueError):
+        maximum([])
+        
+def test_filtrer_positifs_liste_vide():
+    assert filtrer_positifs([]) == []
+    
+def test_filtrer_positifs_base():
+    assert filtrer_positifs([0, 4, -8, 2]) == [4, 2]
+    
